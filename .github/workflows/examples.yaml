@@ -4,31 +4,7 @@ on:
 name: Deploy Examples to Github Pages
 
 jobs:
-  build-and-test:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Setup Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          profile: minimal
-          toolchain: stable
-          override: true
-
-      - name: Build
-        uses: actions-rs/cargo@v1
-        with:
-          command: build
-
-      - name: Test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-
   build-examples-as-wasm:
-    needs: build-and-test
     runs-on: ubuntu-latest
 
     steps:
@@ -41,6 +17,19 @@ jobs:
           toolchain: stable
           override: true
           target: wasm32-unknown-unknown
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+          args: --release --target wasm32-unknown-unknown
+
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+          args: --release --target wasm32-unknown-unknown
+
 
       - name: copy assets
         run: cp -r assets wasm/
