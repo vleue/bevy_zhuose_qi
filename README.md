@@ -4,6 +4,8 @@
 
 Easy to use shaders for Bevy that works in native and on WebGL2.
 
+Examples are deployed [on GitHub Pages](https://vleue.github.io/bevy_zhuose_qi/index.html).
+
 ## Top Down Fire
 
 From https://github.com/wilk10/shader_practice/tree/main/src/shaders/fire
@@ -15,6 +17,7 @@ fn setup(
     mut commands: Commands,
     mut fire_textures: ResMut<Assets<FireTexture>>,
 ) {
+    let my_texture_handle = asset_server.load("fire.png");
     commands.spawn_bundle(FireBundle {
         fire_texture: fire_textures.add(my_texture_handle.into()),
         ..Default::default()
@@ -23,4 +26,4 @@ fn setup(
 ```
 ![single fire](./examples/single_fire.gif)
 
-See the [examples](./examples) for a working code example.
+See the [examples](./examples) for a complete code example.
