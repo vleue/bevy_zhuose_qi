@@ -1,0 +1,30 @@
+[package]
+name = "bevy_zhuose_qi"
+version = "0.1.0"
+authors = ["François Mockers <mockersf@gmail.com>"]
+edition = "2018"
+license = "MIT"
+publish = false
+
+[dependencies.bevy]
+version = "0.4"
+git = "https://github.com/bevyengine//bevy"
+branch = "main"
+default-features = false
+features = [ "render" ]
+
+[dev-dependencies]
+rand = "0.8"
+image = "*"
+
+[target.'cfg(target_arch = "wasm32")'.dev-dependencies]
+bevy_webgl2 = { git = "https://github.com/mockersf/bevy_webgl2", branch = "bevy-main" }
+
+[features]
+default = ["topdownfire"]
+topdownfire = []
+examples = [ "bevy/bevy_winit", "bevy/bevy_wgpu" ]
+examples-wasm = [ "bevy/bevy_winit" ]
+
+[patch.'https://github.com/bevyengine/bevy']
+bevy = { git = "https://github.com/bevyengine//bevy", branch = "main" }

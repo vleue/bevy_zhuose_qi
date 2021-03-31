@@ -1,0 +1,65 @@
+on:
+  push:
+
+name: Deploy Examples to Github Pages
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+
+  build-examples-as-wasm:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: copy assets
+        run: for filepath in examples/*; do echo $filepath; filename="${filepath##*/}"; example="${filename%.*}"; cargo build --release --example $example --features examples-wasm --target wasm32-unknown-unknown && wasm-bindgen --no-typescript --out-name $example --out-dir wasm --target web target/wasm32-unknown-unknown/release/examples/$example.wasm; done
+
+      - name: install wasm-bindgen
+        run: cargo install wasm-bindgen-cli --version 0.2.69
+
+      - name: build as release
+        run: >
+          for filepath in examples/*;
+          do
+            echo $filepath;
+            filename="${filepath##*/}";
+            example="${filename%.*}";
+            cargo build --release --example $example --features examples-wasm --target wasm32-unknown-unknown
+            wasm-bindgen --no-typescript --out-name $example --out-dir wasm --target web target/wasm32-unknown-unknown/release/examples/$example.wasm;
+          done
+
+      - name: deploy to github pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages
+          folder: wasm
