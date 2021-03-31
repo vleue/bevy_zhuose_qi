@@ -5,6 +5,7 @@ authors = ["François Mockers <mockersf@gmail.com>"]
 edition = "2018"
 license = "MIT"
 publish = false
+exclude = ["wasm", "assets", "*.gif"]
 
 [dependencies.bevy]
 version = "0.4"
