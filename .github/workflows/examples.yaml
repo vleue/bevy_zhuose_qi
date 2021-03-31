@@ -50,7 +50,7 @@ jobs:
 
       - name: build as release
         run: >
-          for filepath in examples/*;
+          for filepath in examples/*.rs;
           do
             echo $filepath;
             filename="${filepath##*/}";
