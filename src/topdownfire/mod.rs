@@ -148,6 +148,7 @@ fn setup(
     commands.spawn_bundle(OrthographicCameraBundle::new_2d());
 }
 
+#[allow(clippy::type_complexity)]
 fn fire_texture_detection_system(
     mut texture_to_fire: Local<HashMap<Handle<Texture>, HashSet<Handle<FireTexture>>>>,
     mut fire_to_texture: Local<HashMap<Handle<FireTexture>, Handle<Texture>>>,
