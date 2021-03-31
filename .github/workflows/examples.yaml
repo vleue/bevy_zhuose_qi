@@ -4,7 +4,31 @@ on:
 name: Deploy Examples to Github Pages
 
 jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Setup Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+
+      - name: Build
+        uses: actions-rs/cargo@v1
+        with:
+          command: build
+
+      - name: Test
+        uses: actions-rs/cargo@v1
+        with:
+          command: test
+
   build-examples-as-wasm:
+    needs: build-and-test
     runs-on: ubuntu-latest
 
     steps:
@@ -24,20 +48,13 @@ jobs:
           command: build
           args: --release --target wasm32-unknown-unknown
 
-      - name: Test
-        uses: actions-rs/cargo@v1
-        with:
-          command: test
-          args: --release --target wasm32-unknown-unknown
-
-
-      - name: copy assets
+      - name: Copy assets
         run: cp -r assets wasm/
 
-      - name: install wasm-bindgen
+      - name: Install wasm-bindgen
         run: cargo install wasm-bindgen-cli --version 0.2.69
 
-      - name: build as release
+      - name: Build examples
         run: >
           for filepath in examples/*.rs;
           do
@@ -48,7 +65,7 @@ jobs:
             wasm-bindgen --no-typescript --out-name $example --out-dir wasm --target web target/wasm32-unknown-unknown/release/examples/$example.wasm;
           done
 
-      - name: deploy to github pages
+      - name: Deploy to github pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
           branch: gh-pages
