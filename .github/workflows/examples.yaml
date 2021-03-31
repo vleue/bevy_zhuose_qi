@@ -40,6 +40,7 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+          target: wasm32-unknown-unknown
 
       - name: copy assets
         run: cp -r assets wasm/
