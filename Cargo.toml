@@ -16,7 +16,6 @@ features = [ "render" ]
 
 [dev-dependencies]
 rand = "0.8"
-image = "*"
 
 [target.'cfg(target_arch = "wasm32")'.dev-dependencies]
 bevy_webgl2 = { git = "https://github.com/mockersf/bevy_webgl2", branch = "bevy-main" }
