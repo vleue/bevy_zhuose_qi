@@ -8,9 +8,7 @@ publish = false
 exclude = ["wasm", "assets", "*.gif"]
 
 [dependencies.bevy]
-version = "0.4"
-git = "https://github.com/bevyengine//bevy"
-branch = "main"
+version = "0.5"
 default-features = false
 features = [ "render" ]
 
@@ -18,13 +16,10 @@ features = [ "render" ]
 rand = "0.8"
 
 [target.'cfg(target_arch = "wasm32")'.dev-dependencies]
-bevy_webgl2 = { git = "https://github.com/mockersf/bevy_webgl2", branch = "bevy-main" }
+bevy_webgl2 = "0.5"
 
 [features]
 default = ["topdownfire"]
 topdownfire = []
 examples = [ "bevy/bevy_winit", "bevy/bevy_wgpu" ]
 examples-wasm = [ "bevy/bevy_winit" ]
-
-[patch.'https://github.com/bevyengine/bevy']
-bevy = { git = "https://github.com/bevyengine//bevy", branch = "main" }
