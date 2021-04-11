@@ -5,7 +5,7 @@ authors = ["François Mockers <mockersf@gmail.com>"]
 edition = "2018"
 license = "MIT"
 publish = false
-exclude = ["wasm", "assets", "*.gif"]
+exclude = ["wasm", "assets", "*.gif", "*.mp4"]
 
 [dependencies.bevy]
 version = "0.5"
@@ -20,7 +20,8 @@ rand = "0.8"
 bevy_webgl2 = { git = "https://github.com/mockersf/bevy_webgl2", branch = "texture-format" }
 
 [features]
-default = ["topdownfire"]
+default = ["topdownfire", "laser"]
 topdownfire = []
+laser = []
 examples = [ "bevy/bevy_winit", "bevy/bevy_wgpu" ]
 examples-wasm = [ "bevy/bevy_winit" ]

@@ -30,3 +30,18 @@ cargo run --example fire_wild --features examples
 ```
 ![wild fires](fire_wild.gif)
 
+## Laser
+
+### [Laser](./laser.rs)
+
+```
+cargo run --example laser --features examples
+```
+https://raw.githubusercontent.com/vleue/bevy_zhuose_qi/main/examples/laser.mp4
+
+### [Rotating Laser](./laser_rotating.rs)
+
+```
+cargo run --example laser_rotating --features examples
+```
+https://raw.githubusercontent.com/vleue/bevy_zhuose_qi/main/examples/laser_rotating.mp4
