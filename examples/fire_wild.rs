@@ -23,7 +23,8 @@ pub fn main() {
         .run();
 }
 
-const FIRE_SIZE: usize = 1000;
+const FIRE_SIZE_X: usize = 1300;
+const FIRE_SIZE_Y: usize = 800;
 
 fn setup(
     mut commands: Commands,
@@ -32,12 +33,12 @@ fn setup(
     mut fire_textures: ResMut<Assets<FireTexture>>,
 ) {
     let mut data = Vec::new();
-    for _ in 0..FIRE_SIZE * FIRE_SIZE {
+    for _ in 0..FIRE_SIZE_X * FIRE_SIZE_Y {
         data.push(0);
     }
 
     let texture = Texture::new(
-        Extent3d::new(FIRE_SIZE as u32, FIRE_SIZE as u32, 1),
+        Extent3d::new(FIRE_SIZE_X as u32, FIRE_SIZE_Y as u32, 1),
         TextureDimension::D2,
         data,
         TextureFormat::R8Unorm,
@@ -47,7 +48,7 @@ fn setup(
 
     commands.spawn_bundle(FireBundle {
         mesh: meshes.add(Mesh::from(shape::Quad {
-            size: Vec2::new(FIRE_SIZE as f32, FIRE_SIZE as f32),
+            size: Vec2::new(FIRE_SIZE_X as f32, FIRE_SIZE_Y as f32),
             ..Default::default()
         })),
         fire_texture: fire_textures.add(tex_handle.clone().into()),
@@ -66,14 +67,14 @@ fn setup(
 // very not-optimized, much useless iterations
 fn brush(target_x: u32, target_y: u32, brush_size: f32, data: &mut Vec<u8>) {
     let center = Vec2::new(target_x as f32, target_y as f32);
-    let center_index = target_x as usize + target_y as usize * FIRE_SIZE;
+    let center_index = target_x as usize + target_y as usize * FIRE_SIZE_X;
     for n in (center_index
-        .checked_sub(brush_size as usize * FIRE_SIZE)
+        .checked_sub(brush_size as usize * FIRE_SIZE_X)
         .unwrap_or(0))
-        ..(center_index + brush_size as usize * FIRE_SIZE).min(FIRE_SIZE * FIRE_SIZE)
+        ..(center_index + brush_size as usize * FIRE_SIZE_X).min(FIRE_SIZE_X * FIRE_SIZE_Y)
     {
-        let x = n % FIRE_SIZE;
-        let y = n / FIRE_SIZE;
+        let x = n % FIRE_SIZE_X;
+        let y = n / FIRE_SIZE_X;
         let point = Vec2::new(x as f32, y as f32);
         if center.distance(point) < brush_size / 4.0 {
             data[n] = FIRE_INTENSITY_1;
@@ -101,10 +102,10 @@ fn wild_fire(
 
     if timer.as_mut().unwrap().tick(time.delta()).just_finished() {
         if let Some(texture) = textures.get_mut(texture_handle.clone()) {
-            let x = rand::thread_rng().gen_range(0..FIRE_SIZE as u32);
-            let y = rand::thread_rng().gen_range(0..FIRE_SIZE as u32);
+            let x = rand::thread_rng().gen_range(0..FIRE_SIZE_X as u32);
+            let y = rand::thread_rng().gen_range(0..FIRE_SIZE_Y as u32);
 
-            brush(x, y, FIRE_SIZE as f32 / 12.0, &mut texture.data);
+            brush(x, y, FIRE_SIZE_Y as f32 / 12.0, &mut texture.data);
         }
     }
 }
