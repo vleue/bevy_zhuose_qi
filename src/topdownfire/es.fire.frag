@@ -2,8 +2,8 @@
 
 // from https://github.com/wilk10/shader_practice/tree/main/src/shaders/fire
 
-precision highp float;
-precision highp sampler2DArray;
+precision mediump float;
+precision lowp sampler2DArray;
 
 in vec2 uv;
 out vec4 o_Target;
@@ -110,9 +110,10 @@ void main() {
     vec2 vertical_lerped_uv = mix(uv, vec2(total_noise), vec2(_flame_height, _flame_height));
     vertical_lerped_uv += vec2(_flame_height / 2.0, _flame_height / 2.0);
 
-    vec2 distortion = vec2(vertical_lerped_uv);
-    vec4 image = texture(FireTexture_texture, distortion);
-    vec4 result = clamp(image, vec4(0.), vec4(1.));
+    vec4 image = texture(FireTexture_texture, vertical_lerped_uv);
+
+    float channel = clamp(image.r, 0., 1.);
+    vec4 result = vec4(channel);
     result *= _base_color;
     result *= vec4(vec3(10.), 1.);
     o_Target = encodeSRGB(result);

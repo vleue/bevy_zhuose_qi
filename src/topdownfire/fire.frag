@@ -96,13 +96,14 @@ void main() {
     vec2 main_simple_noise_uv = animateVertically(_uv, _time, 0.3);
     float main_simple_noise = simpleNoise(main_simple_noise_uv, _distorsion_level);
 
-
     float total_noise = main_simple_noise * cellular;
     vec2 vertical_lerped_uv = mix(_uv, vec2(total_noise), vec2(_flame_height, _flame_height));
     vertical_lerped_uv += vec2(_flame_height / 2.0, _flame_height / 2.0);
+
     vec4 image = texture(sampler2D(FireTexture_texture, FireTexture_texture_sampler), vertical_lerped_uv);
 
-    vec4 result = clamp(image, vec4(0.), vec4(1.));
+    float channel = clamp(image.r, 0., 1.);
+    vec4 result = vec4(channel);
     result *= _base_color;
     result *= vec4(vec3(10.), 1.);
     o_Target = result;

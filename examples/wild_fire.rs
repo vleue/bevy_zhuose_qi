@@ -33,14 +33,14 @@ fn setup(
 ) {
     let mut data = Vec::new();
     for _ in 0..FIRE_SIZE * FIRE_SIZE {
-        data.extend_from_slice(&[0; 4]);
+        data.push(0);
     }
 
     let texture = Texture::new(
         Extent3d::new(FIRE_SIZE as u32, FIRE_SIZE as u32, 1),
         TextureDimension::D2,
         data,
-        TextureFormat::Rgba8UnormSrgb,
+        TextureFormat::R8Unorm,
     );
 
     let tex_handle = textures.add(texture);
@@ -76,17 +76,14 @@ fn brush(target_x: u32, target_y: u32, brush_size: f32, data: &mut Vec<u8>) {
         let y = n / FIRE_SIZE;
         let point = Vec2::new(x as f32, y as f32);
         if center.distance(point) < brush_size / 4.0 {
-            let d = &mut data[n * 4..n * 4 + 4];
-            d.copy_from_slice(&[FIRE_INTENSITY_1; 4]);
+            data[n] = FIRE_INTENSITY_1;
         } else if center.distance(point) < brush_size / 1.7 {
-            if data[n * 4] < FIRE_INTENSITY_2 {
-                let d = &mut data[n * 4..n * 4 + 4];
-                d.copy_from_slice(&[FIRE_INTENSITY_2; 4]);
+            if data[n] < FIRE_INTENSITY_2 {
+                data[n] = FIRE_INTENSITY_2;
             }
         } else if center.distance(point) < brush_size {
-            if data[n * 4] == 0 {
-                let d = &mut data[n * 4..n * 4 + 4];
-                d.copy_from_slice(&[FIRE_INTENSITY_3; 4]);
+            if data[n] == 0 {
+                data[n] = FIRE_INTENSITY_3;
             }
         }
     }
