@@ -15,19 +15,35 @@
       class="attachment-full size-full" alt="Fork me on GitHub" data-recalc-dims="1"></a>
   <div class="container" style="max-width: 100%; width: 90%;">
     <div class="row">
-      <div class="two columns">
+      <div class="two columns" id="menu">
         <h5 style="margin-bottom: 1rem;">top-down fire</h5>
-        <div><a href="single_fire.html" target="example-iframe">single fire</a></div>
-        <div><a href="fire_colors.html" target="example-iframe">fire colors</a></div>
-        <div><a href="fire_params.html" target="example-iframe">fire params</a></div>
-        <div><a href="wild_fire.html" target="example-iframe">wild fire</a></div>
+        <div><a id="fire_simple" href="fire_simple.html" target="example-iframe">simple fire</a></div>
+        <div><a id="fire_colors" href="fire_colors.html" target="example-iframe">colored fire</a></div>
+        <div><a id="fire_params" href="fire_params.html" target="example-iframe">fire parameters</a></div>
+        <div><a id="fire_wild" href="fire_wild.html" target="example-iframe">wild fire</a></div>
+        <h5 style="margin-bottom: 1rem;">laser</h5>
+        <div><a id="laser" href="laser.html" target="example-iframe">laser</a></div>
+        <div><a id="laser_rotating" href="laser_rotating.html" target="example-iframe">rotating laser</a></div>
       </div>
       <div class="ten columns">
-        <iframe src="single_fire.html" style="border:none; width: 1280px; height: 720px;" title="Example"
+        <iframe src="fire_simple.html" style="border:none; width: 1280px; height: 720px;" title="Example"
           name="example-iframe"></iframe>
       </div>
     </div>
   </div>
+  <script>
+    function reload_iframe() {
+      document.getElementById(window.location.hash.substring(1)).click()
+    };
+    document.getElementById("menu").addEventListener("click", function (event) {
+      if (event.target.tagName == 'A' && event.target.id) {
+        window.location.hash = '#' + event.target.id;
+      }
+    }, false)
+    if (window.location.hash.length > 1) {
+      reload_iframe();
+    };
+  </script>
 </body>
 
 </html>
