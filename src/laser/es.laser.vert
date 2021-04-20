@@ -6,11 +6,11 @@ in vec3 Vertex_Position;
 in vec2 Vertex_Uv;
 out vec2 uv;
 
-layout(std140) uniform CameraViewProj {
+layout(std140) uniform CameraViewProj { // set = 0, binding = 0
     mat4 ViewProj;
 };
 
-layout(std140) uniform Transform {
+layout(std140) uniform Transform { // set = 1, binding = 0
     mat4 Model;
 };
 
