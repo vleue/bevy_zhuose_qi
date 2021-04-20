@@ -8,10 +8,9 @@ precision lowp sampler2DArray;
 in vec2 uv;
 out vec4 o_Target;
 
+uniform sampler2D FireTexture_texture; // set = 2, binding = 0
 
-uniform sampler2D FireTexture_texture;
-
-uniform FireMaterial {
+uniform FireMaterial { // set = 3, binding = 0
     vec4 _base_color;
     float _flame_height;
     float _distorsion_level;

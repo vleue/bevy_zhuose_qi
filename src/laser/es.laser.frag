@@ -5,7 +5,7 @@ precision mediump float;
 in vec2 uv;
 out vec4 o_Target;
 
-uniform LaserMaterial {
+uniform LaserMaterial { // set = 2, binding = 0
     vec4 _base_color;
     float _width;
     float _time;
