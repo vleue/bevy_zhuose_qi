@@ -65,6 +65,13 @@ jobs:
             wasm-bindgen --no-typescript --out-name $example --out-dir wasm --target web target/wasm32-unknown-unknown/release/examples/$example.wasm;
           done
 
+      - name: Add version numbers
+        run: >
+          version=`cat Cargo.lock| grep 'name = "bevy"' -A 5 | grep version | sed 's/.* = "\([^"]*\)"/\1/'`
+          sed -i'' "s/\*bevy-version\*/$version/" wasm/index.html
+          version=`cat Cargo.lock| grep 'name = "bevy_webgl2"' -A 5 | grep version | sed 's/.* = "\([^"]*\)"/\1/'`
+          sed -i'' "s/\*bevy_webgl2-version\*/$version/" wasm/index.html
+
       - name: Deploy to github pages
         uses: JamesIves/github-pages-deploy-action@4.1.0
         with:
