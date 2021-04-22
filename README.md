@@ -24,6 +24,6 @@ fn setup(
     });
 }
 ```
-![single fire](./examples/single_fire.gif)
+![single fire](./examples/fire_simple.gif)
 
 See the [examples](./examples) for a complete code example.
